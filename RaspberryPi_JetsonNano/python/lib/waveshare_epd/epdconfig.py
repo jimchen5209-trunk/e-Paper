@@ -217,21 +217,23 @@ class SunriseX3:
 class MicroPython:
 
     def __init__(self):
-        # preimport utime
-        import utime  # pylint: disable=C0415, W0611
         from machine import Pin  # pylint: disable=C0415
-        self.DC_PIN = self.dc = Pin('P20')
-        self.dc.mode(Pin.OUT)
+        self.DC_PIN = self.dc = Pin(32)
+        self.dc.init(self.dc.OUT, value=0)
+        # self.dc.mode(Pin.OUT)
 
-        self.CS_PIN = self.cs = Pin('P4')
-        self.cs.mode(Pin.OUT)
-        self.cs.pull(Pin.PULL_UP)
+        self.CS_PIN = self.cs = Pin(33)
+        self.cs.init(self.cs.OUT, value=1)
+        # self.cs.mode(Pin.OUT)
+        # self.cs.pull(Pin.PULL_UP)
 
-        self.RST_PIN = self.rst = Pin('P19')
-        self.rst.mode(Pin.OUT)
+        self.RST_PIN = self.rst = Pin(19)
+        self.rst.init(self.rst.OUT, value=0)
+        # self.rst.mode(Pin.OUT)
 
-        self.BUSY_PIN = self.busy = Pin('P18')
-        self.busy.mode(Pin.IN)
+        self.BUSY_PIN = self.busy = Pin(35)
+        self.busy.init(self.busy.IN)
+        # self.busy.mode(Pin.IN)
 
     def digital_write(self, pin, value):
         pin.value(value)
@@ -248,10 +250,10 @@ class MicroPython:
 
     def module_init(self):
         from machine import Pin, SPI  # pylint: disable=C0415
-        clk = Pin('P21')
-        mosi = Pin('P22')
-        self.spi = SPI(0, mode=SPI.MASTER, baudrate=20000000, polarity=0,
-                       phase=0, pins=(clk, mosi, None))
+        clk = Pin(18)
+        mosi = Pin(23)
+        miso = Pin(19)
+        self.spi = SPI(2, baudrate=20000000, polarity=0, phase=0, sck=clk, miso=miso, mosi=mosi)
         return 0
 
     def module_exit(self):
