@@ -50,10 +50,10 @@ function :  Initialize the e-Paper register
 parameter:
 ******************************************************************************/
 int Epd::Init(void) {
-  if (IfInit() != 0) {
-      return -1;
-  }
-  Reset();
+    if (IfInit() != 0) {
+        return -1;
+    }
+    Reset();
     EPD_5IN65F_BusyHigh();
     SendCommand(0x00);
     SendData(0xEF);
@@ -71,7 +71,7 @@ int Epd::Init(void) {
     SendData(0x1D);
     SendCommand(0x30);
     SendData(0x3C);
-    SendCommand(0x40);
+    SendCommand(0x41);
     SendData(0x00);
     SendCommand(0x50);
     SendData(0x37);
@@ -88,6 +88,8 @@ int Epd::Init(void) {
     DelayMs(100);
     SendCommand(0x50);
     SendData(0x37);
+
+    return 0;
 }
 
 /**
@@ -226,7 +228,5 @@ void Epd::Sleep(void) {
     DelayMs(100);
 	DigitalWrite(RST_PIN, 0); // Reset
 }
-
-
 
 /* END OF FILE */

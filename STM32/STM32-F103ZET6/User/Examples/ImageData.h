@@ -31,6 +31,23 @@
 
 #ifndef _IMAGEDATA_H_
 #define _IMAGEDATA_H_
+
+// ImageData2.c
+/* --------------------------------------- */
+extern const unsigned char gImage_2in13b_V4b[];
+extern const unsigned char gImage_2in13b_V4r[];
+
+extern const unsigned char gImage_1in64g[];
+extern const unsigned char gImage_2in36g[];
+extern const unsigned char gImage_3in0g[];
+extern const unsigned char gImage_4in37g[];
+extern const unsigned char gImage_7in3f[];
+extern const unsigned char gImage_7in3g[];
+/* --------------------------------------- */
+
+// ImageData.c
+extern const unsigned char gImage_100X50[];
+
 extern const unsigned char gImage_1in02d[];
 
 extern const unsigned char gImage_1in54[];
@@ -62,6 +79,7 @@ extern const unsigned char gImage_2in66[];
 extern const unsigned char gImage_2in66bb[];
 extern const unsigned char gImage_2in66br[];
 
+extern const unsigned char gImage_3in52[];
 extern const unsigned char gImage_3in7[]; //4 Gray
 
 extern const unsigned char gImage_4in01[];
