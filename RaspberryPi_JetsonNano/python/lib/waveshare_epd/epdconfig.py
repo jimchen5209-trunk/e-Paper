@@ -32,6 +32,7 @@ import sys
 import time
 
 
+
 class RaspberryPi:
     # Pin definition
     RST_PIN  = 17
@@ -244,6 +245,9 @@ class MicroPython:
 
     def spi_writebyte(self, data):
         self.spi.write(bytes(c & 0xff for c in data))
+
+    def spi_writebyte2(self, data):
+        self.spi_writebyte(data)
 
     def delay_ms(self, delaytime):
         import utime  # pylint: disable=C0415
