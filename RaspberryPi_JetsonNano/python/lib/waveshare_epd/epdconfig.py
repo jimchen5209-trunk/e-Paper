@@ -28,11 +28,8 @@
 #
 
 import os
-# import logging
 import sys
 import time
-
-logger = logging.getLogger(__name__)
 
 
 class RaspberryPi:
@@ -45,6 +42,9 @@ class RaspberryPi:
     def __init__(self):
         import spidev
         import RPi.GPIO
+        import logging
+        
+        self.logger = logging.getLogger(__name__)
 
         self.GPIO = RPi.GPIO
         self.SPI = spidev.SpiDev()
@@ -79,10 +79,10 @@ class RaspberryPi:
         return 0
 
     def module_exit(self):
-        logger.debug("spi end")
+        self.logger.debug("spi end")
         self.SPI.close()
 
-        logger.debug("close 5V, Module enters 0 power consumption ...")
+        self.logger.debug("close 5V, Module enters 0 power consumption ...")
         self.GPIO.output(self.RST_PIN, 0)
         self.GPIO.output(self.DC_PIN, 0)
 
@@ -97,6 +97,9 @@ class JetsonNano:
     BUSY_PIN = 24
 
     def __init__(self):
+        import logging
+        
+        self.logger = logging.getLogger(__name__)
         import ctypes
         find_dirs = [
             os.path.dirname(os.path.realpath(__file__)),
@@ -142,10 +145,10 @@ class JetsonNano:
         return 0
 
     def module_exit(self):
-        logger.debug("spi end")
+        self.logger.debug("spi end")
         self.SPI.SYSFS_software_spi_end()
 
-        logger.debug("close 5V, Module enters 0 power consumption ...")
+        self.logger.debug("close 5V, Module enters 0 power consumption ...")
         self.GPIO.output(self.RST_PIN, 0)
         self.GPIO.output(self.DC_PIN, 0)
 
@@ -163,6 +166,9 @@ class SunriseX3:
     def __init__(self):
         import spidev
         import Hobot.GPIO
+        import logging
+        
+        self.logger = logging.getLogger(__name__)
 
         self.GPIO = Hobot.GPIO
         self.SPI = spidev.SpiDev()
@@ -203,10 +209,10 @@ class SunriseX3:
             return 0
 
     def module_exit(self):
-        logger.debug("spi end")
+        self.logger.debug("spi end")
         self.SPI.close()
 
-        logger.debug("close 5V, Module enters 0 power consumption ...")
+        self.logger.debug("close 5V, Module enters 0 power consumption ...")
         self.Flag = 0
         self.GPIO.output(self.RST_PIN, 0)
         self.GPIO.output(self.DC_PIN, 0)
@@ -220,20 +226,15 @@ class MicroPython:
         from machine import Pin  # pylint: disable=C0415
         self.DC_PIN = self.dc = Pin(32)
         self.dc.init(self.dc.OUT, value=0)
-        # self.dc.mode(Pin.OUT)
 
         self.CS_PIN = self.cs = Pin(33)
         self.cs.init(self.cs.OUT, value=1)
-        # self.cs.mode(Pin.OUT)
-        # self.cs.pull(Pin.PULL_UP)
 
         self.RST_PIN = self.rst = Pin(19)
         self.rst.init(self.rst.OUT, value=0)
-        # self.rst.mode(Pin.OUT)
 
         self.BUSY_PIN = self.busy = Pin(35)
         self.busy.init(self.busy.IN)
-        # self.busy.mode(Pin.IN)
 
     def digital_write(self, pin, value):
         pin.value(value)
